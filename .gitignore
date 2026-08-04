@@ -5,3 +5,4 @@ ios/
 .DS_Store
 build/
 .expo/
+.vscode/
