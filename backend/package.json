@@ -1,1 +1,13 @@
-{"name": "novelmixes-backend", "version": "1.0.0", "private": true}
+{
+  "name": "novelmixes-backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "firebase emulators:start",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.0.0",
+    "firebase-functions": "^4.0.0"
+  }
+}
