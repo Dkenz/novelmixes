@@ -1,0 +1,32 @@
+{
+  "collections": {
+    "users": {
+      "fields": {
+        "displayName": "string",
+        "photoURL": "string",
+        "role": "string"
+      }
+    },
+    "streams": {
+      "fields": {
+        "title": "string",
+        "creatorId": "string",
+        "genre": "string",
+        "tags": "array",
+        "isEnhanced": "boolean",
+        "channelName": "string",
+        "startedAt": "timestamp",
+        "viewerCount": "number",
+        "status": "string"
+      }
+    },
+    "chats": {
+      "fields": {
+        "streamId": "string",
+        "userId": "string",
+        "message": "string",
+        "createdAt": "timestamp"
+      }
+    }
+  }
+}
