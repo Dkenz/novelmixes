@@ -1,32 +1,73 @@
 /**
- * POCPlayer.js
- * Minimal Agora POC screen (React Native).
- * Clean, simple, and ready for you to wire up the SDK.
+ * Agora-Wired POCPlayer.js
+ * Novel Mixes — First real live audio moment.
+ *
+ * Requirements:
+ * npm install react-native-agora
+ * Add AGORA_APP_ID to your .env.local
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Button, StyleSheet, Switch } from 'react-native';
+import RtcEngine, {
+  ChannelProfile,
+  ClientRole
+} from 'react-native-agora';
 
 export default function POCPlayer() {
+  const engineRef = useRef(null);
   const [joined, setJoined] = useState(false);
   const [muted, setMuted] = useState(false);
   const [status, setStatus] = useState('idle');
 
   useEffect(() => {
-    // Initialize Agora engine here once you install the SDK.
+    const init = async () => {
+      try {
+        const engine = await RtcEngine.create(process.env.AGORA_APP_ID);
+        engineRef.current = engine;
+
+        await engine.enableAudio();
+        await engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+        await engine.setClientRole(ClientRole.Broadcaster);
+
+        engine.addListener('JoinChannelSuccess', () => {
+          setJoined(true);
+          setStatus('joined');
+        });
+
+        engine.addListener('UserJoined', uid => {
+          console.log('Remote user joined:', uid);
+        });
+
+        engine.addListener('UserOffline', uid => {
+          console.log('Remote user left:', uid);
+        });
+      } catch (err) {
+        console.error('Agora init error:', err);
+        setStatus('error');
+      }
+    };
+
+    init();
+
     return () => {
-      // Cleanup engine here.
+      if (engineRef.current) {
+        engineRef.current.destroy();
+      }
     };
   }, []);
 
   const startPOC = async () => {
     setStatus('joining');
     try {
-      // TODO: join channel using Agora SDK
-      setJoined(true);
-      setStatus('joined');
+      await engineRef.current.joinChannel(
+        null,              // token (null for dev)
+        'novelmixes-poc',  // channel name
+        null,
+        0                  // local UID
+      );
     } catch (err) {
-      console.error('POC join error', err);
+      console.error('Join error:', err);
       setStatus('error');
     }
   };
@@ -34,18 +75,27 @@ export default function POCPlayer() {
   const stopPOC = async () => {
     setStatus('leaving');
     try {
-      // TODO: leave channel
+      await engineRef.current.leaveChannel();
       setJoined(false);
       setStatus('idle');
     } catch (err) {
-      console.error('POC leave error', err);
+      console.error('Leave error:', err);
       setStatus('error');
+    }
+  };
+
+  const toggleMute = async val => {
+    setMuted(val);
+    try {
+      await engineRef.current.muteLocalAudioStream(val);
+    } catch (err) {
+      console.error('Mute error:', err);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>POC Live Audio Player</Text>
+      <Text style={styles.title}>Agora POC — Novel Mixes</Text>
       <Text style={styles.sub}>Status: {status}</Text>
 
       <View style={styles.row}>
@@ -57,17 +107,11 @@ export default function POCPlayer() {
 
       <View style={styles.row}>
         <Text style={styles.label}>Mute</Text>
-        <Switch
-          value={muted}
-          onValueChange={val => {
-            setMuted(val);
-            // TODO: engine.muteLocalAudioStream(val)
-          }}
-        />
+        <Switch value={muted} onValueChange={toggleMute} />
       </View>
 
       <Text style={styles.note}>
-        Wire this up with react-native-agora and you’re officially dangerous.
+        If you hear audio between two devices, congratulations — Novel Mixes is alive.
       </Text>
     </View>
   );
