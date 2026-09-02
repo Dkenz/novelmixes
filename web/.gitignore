@@ -1,0 +1,17 @@
+node_modules
+.vercel
+.nitro
+.output
+dist
+.tanstack
+.grok/preview.log
+.grok/og-pending
+.grok/skills
+.grok/references
+*.log
+screenshots
+artifacts
+attachments
+.DS_Store
+.env
+.env.*

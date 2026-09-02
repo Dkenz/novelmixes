@@ -1,25 +1,47 @@
 # Novel Mixes (NM)
 
-Novel Mixes is a live audio platform for creators and listeners. MVP focuses on live-only audio, creator-driven tagging, normal vs enhanced streams, and basic monetization hooks.
+**Go Live. Connect. Earn.**
 
-## Quick start (mobile)
-1. cd mobile
-2. npm install
-3. npx react-native run-ios | run-android
+Novel Mixes is a live platform for creators and listeners — music, gaming, talk, and real connection. MVP focuses on live audio/video, creator-driven tagging, and basic monetization hooks.
 
-## Backend
-1. cd backend
-2. npm install
-3. firebase emulators:start
+Founder: Keynes · Domain: [NovelMixes.com](https://novelmixes.com)
 
 ## Repo structure
-See /mobile for React Native app and /backend for Firebase functions.
+
+| Path | What |
+| --- | --- |
+| `/web` | Branded web app (landing, live rooms, Go Live, auth) |
+| `/mobile` | React Native app + Agora live-audio POC |
+| `/backend` | Firebase functions and Firestore schema |
+| `/docs` | Architecture, roadmap, API |
+| `/design` | Mockups and wireframes |
+
+## Quick start (web)
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+## Quick start (mobile)
+
+```bash
+cd mobile
+npm install
+npx react-native run-ios   # or run-android
+```
+
+## Backend
+
+```bash
+cd backend
+npm install
+firebase emulators:start
+```
 
 ## Contributing
-- Create feature branches: `feature/<short-desc>`
-- Open PRs against `develop`
-- Use the issue templates in .github/
 
-## Contact
-Founder: Keynes
-Domain: NovelMixes.com
+- Feature branches: `feature/<short-desc>`
+- Open PRs against `Main`
+- Use the issue templates in `.github/`
